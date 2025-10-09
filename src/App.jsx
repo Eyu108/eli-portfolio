@@ -71,7 +71,7 @@ export default function Portfolio() {
           justifyContent: 'space-between',
           alignItems: 'center'
         }}>
-          <div style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#ffffff' }}>
+          <div style={{ fontSize: '1.00rem', fontWeight: 'bold', color: '#ffffff' }}>
             EK
           </div>
           <div style={{ display: 'flex', gap: '30px' }}>
@@ -359,7 +359,7 @@ function HeroSection({ scrollToSection, isVisible, onDownloadResume }) {
         position: 'absolute',
         top: 0,
         left: 0,
-        width: '100%',
+        width: '150%',
         height: '100%',
         zIndex: 1,
         opacity: 0.5
@@ -498,7 +498,7 @@ function AboutSection({ isVisible }) {
         zIndex: 10
       }}>
         <h2 style={{
-          fontSize: '3.5rem',
+          fontSize: '2.0rem',
           marginBottom: '60px',
           fontWeight: 'bold',
           color: '#ffffff',
@@ -509,10 +509,10 @@ function AboutSection({ isVisible }) {
           About
         </h2>
 
-        <div style={{ fontSize: '1.25rem', lineHeight: '2', color: '#e0e0e0' }}>
+        <div style={{ fontSize: '1.00rem', lineHeight: '2', color: '#e0e0e0' }}>
           {[
             "I'm a Data Analyst and Software Developer with technical expertise in Python, SQL, and R, specializing in extracting actionable insights from complex datasets in energy and financial sectors. Currently pursuing Computer Science at the University of Calgary with proven experience in building analytics platforms that drive business decisions.",
-            "My work combines data engineering, statistical modeling, and full-stack development to deliver measurable impact. I've architected systems that process real-time market data, perform risk analysis, and deliver insights through interactive dashboards — achieving 25-40% improvements in processing efficiency and 30% increases in user engagement across multiple projects.",
+            "My work combines data engineering, statistical modeling, and full-stack development to deliver measurable impact. I've architected systems that process real-time market data, perform risk analysis, and deliver insights through interactive dashboards achieving 25-40% improvements in processing efficiency and 30% increases in user engagement across multiple projects.",
             "I excel at creating data visualizations using Tableau, Plotly, and Matplotlib that improve decision-making and communicate complex findings to diverse audiences. My technical toolkit includes Python, SQL, AWS cloud services, machine learning pipelines, and modern development frameworks — enabling me to build end-to-end data solutions from ETL to deployment.",
             "Seeking opportunities to apply data analytics and development expertise to solve complex problems in energy, finance, or technology sectors."
           ].map((text, index) => (
@@ -666,7 +666,7 @@ function ExperienceSection({ isVisible }) {
         width: '100%'
       }}>
         <h2 style={{
-          fontSize: '3.5rem',
+          fontSize: '2.00rem',
           marginBottom: '60px',
           fontWeight: 'bold',
           color: '#ffffff',
@@ -1042,7 +1042,7 @@ function ProjectsSection({ isVisible }) {
         zIndex: 10
       }}>
         <h2 style={{
-          fontSize: '3.5rem',
+          fontSize: '2.00rem',
           marginBottom: '60px',
           fontWeight: 'bold',
           color: '#ffffff',
@@ -1521,7 +1521,7 @@ function SkillsSection({ isVisible }) {
         width: '100%'
       }}>
         <h2 style={{
-          fontSize: '3.5rem',
+          fontSize: '2.00rem',
           marginBottom: '60px',
           fontWeight: 'bold',
           color: '#ffffff',
@@ -1741,7 +1741,7 @@ function ContactSection({ isVisible }) {
         width: '100%'
       }}>
         <h2 style={{
-          fontSize: '3.5rem',
+          fontSize: '2.00rem',
           marginBottom: '30px',
           fontWeight: 'bold',
           color: '#ffffff',
