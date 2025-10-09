@@ -191,7 +191,7 @@ function HeroSection({ scrollToSection, isVisible, onDownloadResume }) {
     const fontSize = 14;
     const columns = Math.floor(canvas.width / fontSize);
     const drops = Array(columns).fill(1);
-    const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz$€¥£₿%';
+    const chars = '012345678910091008ABCDEFGHIJKLMNOPQRSTUVWXYZqrstuvwxyz$€¥£₿%';
 
     // Candlestick Setup (positioned higher)
     const candlesticks = [];
@@ -360,7 +360,7 @@ function HeroSection({ scrollToSection, isVisible, onDownloadResume }) {
         top: 0,
         left: 0,
         width: '200%',
-        height: '200%',
+        height: '120%',
         zIndex: 1,
         opacity: 0.5
       }} />
