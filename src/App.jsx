@@ -72,7 +72,7 @@ export default function Portfolio() {
           alignItems: 'center'
         }}>
           <div style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#ffffff' }}>
-            Eyuel Elijah K
+            Elijah.K
           </div>
           <div style={{ display: 'flex', gap: '30px' }}>
             {['About', 'Experience', 'Projects', 'Skills', 'Contact'].map(section => (
@@ -163,13 +163,13 @@ export default function Portfolio() {
         color: '#999',
         fontSize: '0.9rem'
       }}>
-        <p>© 2025 Eyuel Elijah K. Built with React & Tailwind CSS.</p>
+        <p>© 2025 Elijah.K. Built with React & Tailwind CSS.</p>
       </footer>
     </div>
   );
 }
 
-// Hero Section with Matrix Animation
+// Hero Section with Matrix + Data Analytics Animation
 function HeroSection({ scrollToSection, isVisible, onDownloadResume }) {
   const canvasRef = useRef(null);
 
@@ -187,43 +187,158 @@ function HeroSection({ scrollToSection, isVisible, onDownloadResume }) {
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
-    const fontSize = 16;
+    // Matrix Rain Setup
+    const fontSize = 14;
     const columns = Math.floor(canvas.width / fontSize);
     const drops = Array(columns).fill(1);
-    
-    // Characters for matrix effect
-    const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+    const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz$€¥£₿%';
 
-    function draw() {
-      // Semi-transparent black to create fade effect
+    // Candlestick Setup (positioned higher)
+    const candlesticks = [];
+    for (let i = 0; i < 10; i++) {
+      candlesticks.push({
+        x: (i / 9) * canvas.width * 0.7 + canvas.width * 0.15,
+        y: canvas.height * 0.2, // Position at top 20% of screen
+        open: Math.random() * 80 + 150,
+        close: Math.random() * 80 + 150,
+        high: 0,
+        low: 0,
+        speed: Math.random() * 0.4 + 0.3,
+        opacity: 0.6 + Math.random() * 0.4
+      });
+    }
+    
+    // Bar Charts Setup
+    const bars = [];
+    for (let i = 0; i < 15; i++) {
+      bars.push({
+        x: (i / 14) * canvas.width * 0.8 + canvas.width * 0.1,
+        height: Math.random() * canvas.height * 0.25 + 40,
+        targetHeight: Math.random() * canvas.height * 0.25 + 40,
+        speed: 0.015
+      });
+    }
+
+    function animate() {
+      // Layer 1: Matrix Rain Background
       ctx.fillStyle = 'rgba(10, 22, 40, 0.08)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       ctx.font = `${fontSize}px monospace`;
       
       for (let i = 0; i < drops.length; i++) {
-        // Random character
         const char = chars[Math.floor(Math.random() * chars.length)];
-        
-        // Gradient effect - brighter at the front
-        const brightness = drops[i] * fontSize < 100 ? 255 : Math.max(100, 255 - (drops[i] * fontSize - 100) / 3);
-        ctx.fillStyle = `rgba(74, 158, 255, ${brightness / 255})`;
+        const brightness = drops[i] * fontSize < 100 ? 200 : Math.max(80, 200 - (drops[i] * fontSize - 100) / 4);
+        ctx.fillStyle = `rgba(74, 158, 255, ${brightness / 255 * 0.4})`;
         
         ctx.fillText(char, i * fontSize, drops[i] * fontSize);
 
-        // Reset drop to top randomly after it goes past screen
         if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
           drops[i] = 0;
         }
-
         drops[i]++;
       }
+
+      // Layer 2: Candlesticks (overlaid on matrix, positioned high)
+      candlesticks.forEach(candle => {
+        // Animate candlestick values
+        candle.open += (Math.random() - 0.5) * candle.speed;
+        candle.close += (Math.random() - 0.5) * candle.speed;
+        
+        // Keep values in reasonable range
+        candle.open = Math.max(100, Math.min(300, candle.open));
+        candle.close = Math.max(100, Math.min(300, candle.close));
+        
+        candle.high = Math.max(candle.open, candle.close) + Math.random() * 15;
+        candle.low = Math.min(candle.open, candle.close) - Math.random() * 15;
+        
+        const isGreen = candle.close > candle.open;
+        const color = isGreen ? `rgba(56, 239, 125, ${candle.opacity})` : `rgba(255, 107, 53, ${candle.opacity})`;
+        const outlineColor = isGreen ? `rgba(56, 239, 125, ${candle.opacity + 0.2})` : `rgba(255, 107, 53, ${candle.opacity + 0.2})`;
+        
+        const bodyHeight = Math.abs(candle.close - candle.open);
+        const bodyY = candle.y + (300 - Math.max(candle.open, candle.close));
+        
+        // Draw wick (high-low line)
+        ctx.strokeStyle = outlineColor;
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(candle.x, candle.y + (300 - candle.high));
+        ctx.lineTo(candle.x, candle.y + (300 - candle.low));
+        ctx.stroke();
+        
+        // Draw body (open-close rectangle) with glow
+        ctx.shadowBlur = 15;
+        ctx.shadowColor = isGreen ? 'rgba(56, 239, 125, 0.5)' : 'rgba(255, 107, 53, 0.5)';
+        ctx.fillStyle = color;
+        ctx.fillRect(
+          candle.x - 18,
+          bodyY,
+          36,
+          bodyHeight || 3
+        );
+        ctx.shadowBlur = 0;
+        
+        // Draw outline
+        ctx.strokeStyle = outlineColor;
+        ctx.lineWidth = 2;
+        ctx.strokeRect(
+          candle.x - 18,
+          bodyY,
+          36,
+          bodyHeight || 3
+        );
+      });
+
+      // Layer 3: Bar Charts at bottom
+      bars.forEach((bar, idx) => {
+        bar.height += (bar.targetHeight - bar.height) * bar.speed;
+        
+        if (Math.random() < 0.008) {
+          bar.targetHeight = Math.random() * canvas.height * 0.25 + 40;
+        }
+        
+        const gradient = ctx.createLinearGradient(0, canvas.height - bar.height, 0, canvas.height);
+        gradient.addColorStop(0, 'rgba(74, 158, 255, 0.5)');
+        gradient.addColorStop(1, 'rgba(74, 158, 255, 0.15)');
+        
+        ctx.fillStyle = gradient;
+        ctx.fillRect(
+          bar.x - 25,
+          canvas.height - bar.height,
+          50,
+          bar.height
+        );
+        
+        // Draw subtle border
+        ctx.strokeStyle = 'rgba(74, 158, 255, 0.6)';
+        ctx.lineWidth = 1;
+        ctx.strokeRect(
+          bar.x - 25,
+          canvas.height - bar.height,
+          50,
+          bar.height
+        );
+        
+        // Draw value on top (every other bar)
+        if (idx % 3 === 0) {
+          ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+          ctx.font = 'bold 11px monospace';
+          ctx.textAlign = 'center';
+          ctx.fillText(
+            `${Math.floor(bar.height)}`,
+            bar.x,
+            canvas.height - bar.height - 8
+          );
+        }
+      });
+
+      requestAnimationFrame(animate);
     }
 
-    const interval = setInterval(draw, 50);
+    animate();
 
     return () => {
-      clearInterval(interval);
       window.removeEventListener('resize', resizeCanvas);
     };
   }, []);
@@ -239,7 +354,7 @@ function HeroSection({ scrollToSection, isVisible, onDownloadResume }) {
       padding: '100px 40px 80px',
       background: '#0a1628'
     }}>
-      {/* Matrix Canvas with proper overlay */}
+      {/* Combined Matrix + Data Analytics Canvas */}
       <canvas ref={canvasRef} style={{
         position: 'absolute',
         top: 0,
@@ -247,7 +362,7 @@ function HeroSection({ scrollToSection, isVisible, onDownloadResume }) {
         width: '100%',
         height: '100%',
         zIndex: 1,
-        opacity: 0.6
+        opacity: 0.5
       }} />
       
       {/* Dark overlay for better text contrast */}
@@ -257,7 +372,7 @@ function HeroSection({ scrollToSection, isVisible, onDownloadResume }) {
         left: 0,
         width: '100%',
         height: '100%',
-        background: 'radial-gradient(circle at center, rgba(10, 22, 40, 0.3) 0%, rgba(10, 22, 40, 0.7) 100%)',
+        background: 'radial-gradient(circle at center, rgba(10, 22, 40, 0.2) 0%, rgba(10, 22, 40, 0.6) 100%)',
         zIndex: 2
       }} />
 
@@ -270,22 +385,34 @@ function HeroSection({ scrollToSection, isVisible, onDownloadResume }) {
         transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
         transition: 'all 1s ease-out'
       }}>
+        {/* Profile Picture Placeholder */}
         <div style={{
           width: '140px',
           height: '140px',
           borderRadius: '50%',
           margin: '0 auto 30px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontSize: '3rem',
-          fontWeight: 'bold',
           border: '4px solid #4a9eff',
           background: 'rgba(15, 35, 66, 0.9)',
           boxShadow: '0 0 40px rgba(74, 158, 255, 0.4)',
-          backdropFilter: 'blur(10px)'
+          backdropFilter: 'blur(10px)',
+          overflow: 'hidden',
+          position: 'relative'
         }}>
-          EK
+          {/* Profile Image - Replace src with your image URL */}
+          <img 
+            src="/profile-picture.jpg" 
+            alt="Elijah K Profile"
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover'
+            }}
+            onError={(e) => {
+              // Fallback if image doesn't load - shows initials
+              e.target.style.display = 'none';
+              e.target.parentElement.innerHTML = '<div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 3rem; font-weight: bold; color: white;">EK</div>';
+            }}
+          />
         </div>
 
         <h1 style={{
@@ -295,7 +422,7 @@ function HeroSection({ scrollToSection, isVisible, onDownloadResume }) {
           color: '#ffffff',
           textShadow: '0 2px 20px rgba(0,0,0,0.5)'
         }}>
-          Eyuel Elijah K
+          Elijah.K
         </h1>
 
         <div style={{
