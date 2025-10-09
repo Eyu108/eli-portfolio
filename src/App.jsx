@@ -72,7 +72,7 @@ export default function Portfolio() {
           alignItems: 'center'
         }}>
           <div style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#ffffff' }}>
-            Elijah.K
+            EK
           </div>
           <div style={{ display: 'flex', gap: '30px' }}>
             {['About', 'Experience', 'Projects', 'Skills', 'Contact'].map(section => (
@@ -416,7 +416,7 @@ function HeroSection({ scrollToSection, isVisible, onDownloadResume }) {
         </div>
 
         <h1 style={{
-          fontSize: '4rem',
+          fontSize: '3rem',
           marginBottom: '15px',
           fontWeight: 'bold',
           color: '#ffffff',
