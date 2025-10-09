@@ -359,8 +359,8 @@ function HeroSection({ scrollToSection, isVisible, onDownloadResume }) {
         position: 'absolute',
         top: 0,
         left: 0,
-        width: '150%',
-        height: '100%',
+        width: '200%',
+        height: '200%',
         zIndex: 1,
         opacity: 0.5
       }} />
